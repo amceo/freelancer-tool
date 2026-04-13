@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { Database } from '@/types/database';
 
-const protectedRoutes = ['/dashboard', '/settings', '/invoice'];
+const protectedRoutes = ['/dashboard', '/settings'];
 
 export async function middleware(req: NextRequest): Promise<NextResponse> {
   const res = NextResponse.next();
@@ -24,5 +24,5 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/settings/:path*', '/invoice/:path*']
+  matcher: ['/dashboard/:path*', '/settings/:path*']
 };

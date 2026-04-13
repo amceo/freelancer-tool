@@ -3,7 +3,7 @@
 import { useState, useTransition } from 'react';
 import { Document, Page, StyleSheet, Text, pdf } from '@react-pdf/renderer';
 import { Button } from '@/components/ui/button';
-import { generateDemandLetter } from '@/app/invoice/[id]/demand/actions';
+import { generateDemandLetter } from '@/app/dashboard/invoice/[id]/demand/actions';
 
 const styles = StyleSheet.create({
   page: { padding: 32, fontSize: 12, lineHeight: 1.5 },

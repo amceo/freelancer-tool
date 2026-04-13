@@ -61,7 +61,7 @@ export function InvoiceTable({ invoices }: Props): JSX.Element {
               <TableCell className='space-x-2'>
                 <Button size='sm' onClick={() => sendReminder(invoice.id)} disabled={sendingId === invoice.id}>Send Reminder</Button>
                 <Button size='sm' variant='outline' asChild>
-                  <a href={`/invoice/${invoice.id}/demand`}>Demand Letter</a>
+                  <a href={`/dashboard/invoice/${invoice.id}/demand`}>Demand Letter</a>
                 </Button>
               </TableCell>
             </TableRow>

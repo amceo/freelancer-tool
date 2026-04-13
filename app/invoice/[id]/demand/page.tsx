@@ -1,10 +1,5 @@
-import { DemandLetterEditor } from '@/components/dashboard/demand-letter-editor';
+import { redirect } from 'next/navigation';
 
-export default function DemandPage({ params }: { params: { id: string } }): JSX.Element {
-  return (
-    <main className='mx-auto max-w-4xl p-6'>
-      <h1 className='mb-4 text-2xl font-semibold'>AI Demand Letter</h1>
-      <DemandLetterEditor invoiceId={params.id} />
-    </main>
-  );
+export default function LegacyDemandPage({ params }: { params: { id: string } }): never {
+  redirect(`/dashboard/invoice/${params.id}/demand`);
 }
