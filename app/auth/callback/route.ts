@@ -1,28 +1,27 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { createSupabaseServerClient } from '@/lib/supabase/server';
+import { cookies } from 'next/headers';
+import { NextResponse } from 'next/server';
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 
-export async function GET(request: NextRequest): Promise<NextResponse> {
-  const url = new URL(request.url);
-  const code = url.searchParams.get('code');
-
-  if (!code) {
-    return NextResponse.redirect(new URL('/?error=missing_code', request.url));
-  }
-
-  const supabase = createSupabaseServerClient();
-  const { error } = await supabase.auth.exchangeCodeForSession(code);
+export async function GET(request: Request) {
+  const supabase = createRouteHandlerClient({ cookies });
+  
+  // This MUST be the full URL – Supabase requires it
+  const { data, error } = await supabase.auth.exchangeCodeForSession(request.url);
 
   if (error) {
-    return NextResponse.redirect(new URL(`/?error=${encodeURIComponent(error.message)}`, request.url));
+    return NextResponse.redirect(`/?error=${encodeURIComponent(error.message)}`);
   }
 
+  // Optional: Insert user into DB
   const {
     data: { user }
   } = await supabase.auth.getUser();
 
   if (user?.email) {
-    await supabase.from('users').upsert({ id: user.id, email: user.email }, { onConflict: 'id' });
+    await supabase
+      .from('users')
+      .upsert({ id: user.id, email: user.email }, { onConflict: 'id' });
   }
 
-  return NextResponse.redirect(new URL('/dashboard', request.url));
+  return NextResponse.redirect('/dashboard');
 }
